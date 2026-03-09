@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Getting started with BEMPdata</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Getting started with BEMPdata</h1>
+
+
+
+<div id="overview" class="section level2">
+<h2>Overview</h2>
+<p>The <strong>BEMPdata</strong> package provides access to the
+Bangladesh Environmental Mobility Panel (BEMP), a household panel survey
+on environmental migration along the Jamuna River in Bangladesh
+(2021–2024). The dataset covers 1,691 households across 20 survey
+datasets (14 rounds: 4 annual in-person waves and 10 bi-monthly phone
+waves), yielding 24,279 completed surveys.</p>
+<p>Data are hosted on <a href="https://doi.org/10.5281/zenodo.18229498">Zenodo</a> and downloaded
+on demand. Files are cached locally after the first download, so
+subsequent calls are instant.</p>
+</div>
+<div id="installation" class="section level2">
+<h2>Installation</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># Install from GitHub</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;janfreihardt/BEMPdata&quot;</span>)</span></code></pre></div>
+</div>
+<div id="wave-structure" class="section level2">
+<h2>Wave structure</h2>
+<p>The package includes a built-in overview of all 20 wave datasets:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(BEMPdata)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>wave_overview</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co"># In-person waves only</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>wave_overview[wave_overview<span class="sc">$</span>type <span class="sc">==</span> <span class="st">&quot;in-person&quot;</span>, ]</span></code></pre></div>
+<p>Wave identifiers follow the pattern
+<code>w{round}[_M|_N|_V]</code>:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Suffix</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><em>(none)</em></td>
+<td>Main household questionnaire</td>
+</tr>
+<tr class="even">
+<td><code>_M</code></td>
+<td>Migrant questionnaire</td>
+</tr>
+<tr class="odd">
+<td><code>_N</code></td>
+<td>Non-migrant questionnaire</td>
+</tr>
+<tr class="even">
+<td><code>_V</code></td>
+<td>Village profile questionnaire</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="downloading-wave-data" class="section level2">
+<h2>Downloading wave data</h2>
+<p>Use <code>get_wave()</code> to download and load a wave. The first
+call downloads the full CSV archive (~6 MB) from Zenodo; all subsequent
+calls use the local cache.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Baseline in-person wave (2021)</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>w1 <span class="ot">&lt;-</span> <span class="fu">get_wave</span>(<span class="st">&quot;w1&quot;</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">head</span>(w1)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co"># Wave 6, migrant questionnaire</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>w6_migrant <span class="ot">&lt;-</span> <span class="fu">get_wave</span>(<span class="st">&quot;w6_M&quot;</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co"># Wave 14, non-migrant questionnaire, in Stata format (with value labels)</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>w14_nm <span class="ot">&lt;-</span> <span class="fu">get_wave</span>(<span class="st">&quot;w14_N&quot;</span>, <span class="at">format =</span> <span class="st">&quot;dta&quot;</span>)</span></code></pre></div>
+</div>
+<div id="working-with-codebooks" class="section level2">
+<h2>Working with codebooks</h2>
+<div id="look-up-a-variable-by-keyword" class="section level3">
+<h3>Look up a variable by keyword</h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Find all variables related to income</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">lookup_variable</span>(<span class="st">&quot;income&quot;</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co"># Search only in variable labels</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="fu">lookup_variable</span>(<span class="st">&quot;migrat&quot;</span>, <span class="at">fields =</span> <span class="st">&quot;label&quot;</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co"># Use a regular expression</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="fu">lookup_variable</span>(<span class="st">&quot;flood|erosion&quot;</span>)</span></code></pre></div>
+</div>
+<div id="get-the-full-codebook-for-a-wave" class="section level3">
+<h3>Get the full codebook for a wave</h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># Codebook for the baseline wave</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>cb_w1 <span class="ot">&lt;-</span> <span class="fu">get_codebook</span>(<span class="st">&quot;w1&quot;</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">names</span>(cb_w1)</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co"># Merged codebook across all waves</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>cb_all <span class="ot">&lt;-</span> <span class="fu">get_codebook</span>(<span class="st">&quot;all&quot;</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="fu">nrow</span>(cb_all)</span></code></pre></div>
+<p>The pre-built <code>codebook</code> object ships with the package and
+is available immediately without downloading:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># Available offline</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">head</span>(codebook[, <span class="fu">c</span>(<span class="st">&quot;wave&quot;</span>, <span class="st">&quot;variable_name&quot;</span>, <span class="st">&quot;variable_label&quot;</span>, <span class="st">&quot;block&quot;</span>)])</span></code></pre></div>
+</div>
+</div>
+<div id="cache-management" class="section level2">
+<h2>Cache management</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># Check what is cached and how much space it uses</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">bemp_cache_info</span>()</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co"># Clear the cache (will prompt for confirmation)</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="fu">bemp_cache_clear</span>()</span></code></pre></div>
+</div>
+<div id="linking-waves" class="section level2">
+<h2>Linking waves</h2>
+<p>The panel respondent code is stored in the registration block of each
+wave. Here is a minimal example of merging two waves:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>w1  <span class="ot">&lt;-</span> <span class="fu">get_wave</span>(<span class="st">&quot;w1&quot;</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>w6n <span class="ot">&lt;-</span> <span class="fu">get_wave</span>(<span class="st">&quot;w6_N&quot;</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co"># Identify the respondent code columns</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="fu">lookup_variable</span>(<span class="st">&quot;respondent code&quot;</span>, <span class="at">fields =</span> <span class="st">&quot;label&quot;</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co"># Merge on respondent code (adjust variable names as needed)</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>panel <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(w1, w6n, <span class="at">by =</span> <span class="st">&quot;w1_reg1&quot;</span>, <span class="at">suffix =</span> <span class="fu">c</span>(<span class="st">&quot;_w1&quot;</span>, <span class="st">&quot;_w6n&quot;</span>))</span></code></pre></div>
+</div>
+<div id="citation" class="section level2">
+<h2>Citation</h2>
+<p>If you use this package or dataset, please cite:</p>
+<p><strong>R package:</strong></p>
+<blockquote>
+<p>Freihardt, J. (2026). <em>BEMPdata: R package for the Bangladesh
+Environmental Mobility Panel</em>. Zenodo. <a href="https://doi.org/10.5281/zenodo.18775710" class="uri">https://doi.org/10.5281/zenodo.18775710</a></p>
+</blockquote>
+<p><strong>Dataset:</strong></p>
+<blockquote>
+<p>Freihardt, J. et al. (2026). <em>The Bangladesh Environmental
+Mobility Panel (BEMP): Panel data on (im)mobility, socio-economic, and
+political impacts of riverbank erosion and flooding in Bangladesh</em>
+[Dataset]. Zenodo. <a href="https://doi.org/10.5281/zenodo.18229498" class="uri">https://doi.org/10.5281/zenodo.18229498</a></p>
+</blockquote>
+<p><strong>Data descriptor:</strong></p>
+<blockquote>
+<p>Freihardt, J. et al. (<em>forthcoming</em>). Bangladesh Environmental
+Mobility Panel (BEMP). <em>[Journal]</em>. DOI: [to be added]</p>
+</blockquote>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
